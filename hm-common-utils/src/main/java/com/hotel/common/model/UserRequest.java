@@ -3,12 +3,13 @@ package com.hotel.common.model;
 import com.hotel.common.util.FosysConstants.UserType;
 
 import lombok.Data;
+import lombok.NonNull;
 
 @Data
 public class UserRequest {
 
 	private UserType userType;
-	
+
 	private String firstName;
 	
 	private String lastName;

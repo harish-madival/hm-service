@@ -1,7 +1,7 @@
 package com.hotel.auth.service;
 
 import java.time.LocalDateTime;
-import java.util.Random;
+import java.security.SecureRandom;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -16,6 +16,7 @@ import com.hotel.auth.model.OtpVerification;
 public class OtpService {
 	private static final int OTP_LENGTH = 6;
 	private static final int OTP_VALID_MINUTES = 5;
+	private static final SecureRandom RANDOM = new SecureRandom();
 
 	private final MongoTemplate mongoTemplate;
 
@@ -24,7 +25,7 @@ public class OtpService {
 	}
 
 	public String generateOtp() {
-		return String.format("%06d", new Random().nextInt(999999));
+		return String.format("%0" + OTP_LENGTH + "d", RANDOM.nextInt(1_000_000));
 	}
 
 	public void saveOtp(String mobileNumber, String otp) {
@@ -39,7 +40,7 @@ public class OtpService {
 		Query query = new Query(Criteria.where("mobileNumber").is(mobileNumber).and("otp").is(otp).and("expiryTime")
 				.gt(LocalDateTime.now()));
 
-		return mongoTemplate.exists(query, OtpVerification.class);
+		return mongoTemplate.remove(query, OtpVerification.class).getDeletedCount() == 1;
 	}
 
 	@Scheduled(fixedRate = 300000) // Clean every 5 minutes

@@ -11,8 +11,8 @@
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>hm-food-service</artifactId>
-	<version>${food-service-version}</version>
-	<name>${hm-food-service-name}</name>
+	<version>1.0.0.0-RELEASE</version>
+	<name>hm-food-service-name</name>
 	<description>HM Onboarding Service</description>
 	<properties>
 		<hm-food-service-name>hm-food-service</hm-food-service-name>
@@ -53,7 +53,7 @@
 		<dependency>
 			<groupId>com.hm.common</groupId>
 			<artifactId>CommonUtils</artifactId>
-			<version>${common-utils-version}</version>
+			<version>1.0.0.0-RELEASE</version>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>

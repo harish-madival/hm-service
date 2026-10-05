@@ -1,6 +1,6 @@
 package com.hm.food.utils;
 
-import org.apache.commons.lang.StringUtils;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.stereotype.Component;
 
 @Component

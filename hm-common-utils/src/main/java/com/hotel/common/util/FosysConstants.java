@@ -4,7 +4,7 @@ public class FosysConstants {
 	
 	public static enum UserType {
 
-		ADMIN, PARTNER, ENTERPRISE;
+		ADMIN, SERVICEPARTNER, SERVICEUSER;
 	}
 
 	public static final String MOBILENUMBER = "mobileNumber";

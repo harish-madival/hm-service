@@ -6,6 +6,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -37,7 +39,7 @@ public class UserController {
 		return new ResponseEntity<>(new HmResponse("success", map), HttpStatus.OK);
 	}
 
-	@PutMapping
+	@GetMapping
 	public ResponseEntity<?> getUser(@RequestHeader(name = FosysConstants.USERID) String userId,
 			@RequestHeader(name = FosysConstants.USER_TYPE) UserType userType,
 			@RequestParam(name = FosysConstants.FILTER_KEY, required = false) String filterKey,
@@ -52,7 +54,7 @@ public class UserController {
 				HttpStatus.OK);
 	}
 
-	@PutMapping
+	@DeleteMapping
 	public ResponseEntity<?> deleteUser(@RequestHeader(name = FosysConstants.USERID) String userId,
 			@RequestHeader(name = FosysConstants.USER_TYPE) UserType userType,
 			@RequestParam(name = FosysConstants.USER_BY_USERID, required = false) String userByUserId) {

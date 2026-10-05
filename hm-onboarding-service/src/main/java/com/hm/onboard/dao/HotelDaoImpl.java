@@ -2,7 +2,7 @@ package com.hm.onboard.dao;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.hm.onboard.model.HotelEntity;
 
 @Repository
-public class HotelDaoimpl implements HotelDao {
+public class HotelDaoImpl implements HotelDao {
 
 	@Autowired
 	MongoTemplate mongoTemplate;
