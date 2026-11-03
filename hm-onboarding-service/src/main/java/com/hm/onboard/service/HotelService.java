@@ -2,11 +2,12 @@ package com.hm.onboard.service;
 
 import java.util.List;
 
+import com.hm.onboard.dto.HotelRequest;
 import com.hm.onboard.model.HotelEntity;
 
 public interface HotelService {
 
-	HotelEntity saveHotelData(HotelEntity hotelEntity, String userId);
+	HotelEntity saveHotelData(HotelRequest hotelEntity, String userId);
 
 	List<HotelEntity> getHotelData(String userId, String hotelId);
 

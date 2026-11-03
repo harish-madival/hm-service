@@ -44,25 +44,26 @@ public class AuthenticationController {
 
 		Optional<User> user = userService.findUser(mobileNumber);
 
-		if (!user.isPresent()) {
-			return unauthorizedResponse();
-		}
+        if (user.isPresent()) {
+            User authenticatedUser = user.get();
 
-		User authenticatedUser = user.get();
+            String userType = authenticatedUser.getUserType() != null
+                    ? authenticatedUser.getUserType().name()
+                    : null;
 
-		String userType = authenticatedUser.getUserType() != null
-				? authenticatedUser.getUserType().name()
-				: null;
+            return ResponseEntity.ok(
+                    TokenValidationResponse.valid(
+                            authenticatedUser.getUserId(),
+                            authenticatedUser.getMobileNumber(),
+                            authenticatedUser.getRoles(),
+                            userType
+                    )
+            );
+        } else {
+            return unauthorizedResponse();
+        }
 
-		return ResponseEntity.ok(
-				TokenValidationResponse.valid(
-						authenticatedUser.getUserId(),
-						authenticatedUser.getMobileNumber(),
-						authenticatedUser.getRoles(),
-						userType
-				)
-		);
-	}
+    }
 
 	private ResponseEntity<TokenValidationResponse> unauthorizedResponse() {
 		return ResponseEntity

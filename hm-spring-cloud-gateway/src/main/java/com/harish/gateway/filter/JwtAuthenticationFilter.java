@@ -118,13 +118,12 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
                         }
                     })).build();
                     return chain.filter(mutatedExchange);
-                })
-                .onErrorResume(exception -> {
+                }).onErrorResume(exception -> {
 
                     log.error("Token validation failed. URI={}", exchange.getRequest().getURI(), exception);
                     if (exception instanceof NotFoundException) {
                         return serviceUnavailable(exchange, "Service Unavailable.", exception.getMessage());
-                    } else if(exception instanceof WebClientResponseException.Unauthorized) {
+                    } else if (exception instanceof WebClientResponseException.Unauthorized) {
                         return unauthorized(exchange, "Unauthorized.", "Unauthorized");
                     } else {
                         return serviceUnavailable(exchange, "Service error.", exception.getMessage());
@@ -133,7 +132,10 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
     }
 
     private boolean isPublicEndpoint(String path) {
-        return path.equalsIgnoreCase("/fosys/auth/login") || path.equalsIgnoreCase("/fosys/auth/send-otp") || path.equalsIgnoreCase("/fosys/auth/verify-login");
+        return path.equalsIgnoreCase("/fosys/auth/login")
+                || path.equalsIgnoreCase("/fosys/auth/send-otp")
+                || path.equalsIgnoreCase("/fosys/auth/verify-login")
+                || path.equalsIgnoreCase("/fosys/auth/user");
     }
 
     private Mono<Void> unauthorized(ServerWebExchange exchange, String error, String message) {
