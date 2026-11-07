@@ -1,0 +1,17 @@
+<configuration>
+
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <logger name="org.springframework.cloud.gateway"
+            level="INFO"/>
+
+    <logger name="reactor.netty"
+            level="INFO"/>
+
+    <root level="INFO">
+
+        <appender-ref ref="CONSOLE"/>
+
+    </root>
+
+</configuration>

@@ -1,0 +1,37 @@
+server:
+  port: 8600
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: never
+
+security:
+  apiKeyHeader: X-API-KEY
+  apiKeyValue: dev-key-change-me
+
+spring:
+  mail:
+    host: email-smtp.us-east-1.amazonaws.com   # Amazon SES SMTP host example
+    port: 587
+    username: YOUR_SES_SMTP_USERNAME
+    password: YOUR_SES_SMTP_PASSWORD
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+sms:
+  provider: msg91
+  msg91:
+    baseUrl: https://api.msg91.com/api/v5/flow/
+    authKey: YOUR_MSG91_API_KEY
+    flowId: YOUR_MSG91_FLOW_ID        # use flow/template workflow
+    senderId: YOUR_SENDER_ID          # 6-char DLT sender ID
+    dltEntityId: YOUR_DLT_ENTITY_ID   # if required by your provider

@@ -1,0 +1,101 @@
+server:
+  port: 8765
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+    min-response-size: 1024
+
+spring:
+  application:
+    name: hm-zuul-gateway
+#  main:
+#    allow-bean-definition-overriding: true
+
+# Eureka (optional)
+eureka:
+   client:
+     service-url:
+       defaultZone: http://localhost:8761/eureka/
+     fetch-registry: true
+     register-with-eureka: true
+#   instance:
+#     prefer-ip-address: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,env,beans,threaddump,heapdump,logfile,loggers
+  endpoint:
+    health:
+      show-details: when-authorized
+
+logging:
+  level:
+    root: INFO
+    com.example.gateway: INFO
+    org.springframework.cloud.netflix.zuul: INFO
+    org.springframework.security: INFO
+
+zuul:
+  # Sensitive headers removed so Authorization propagates downstream
+  sensitive-headers: Cookie,Set-Cookie
+  addProxyHeaders: true
+  ignored-services: '*'  # we route explicitly below
+  host:
+    socket-timeout-millis: 30000
+    connect-timeout-millis: 2000
+  semaphore:
+    max-semaphores: 500
+  routes:
+    auth-service:
+      path: /fosys/auth/**
+      serviceId: hm-auth-service
+      stripPrefix: false
+      sensitiveHeaders: Cookie,Set-Cookie
+    food-service:
+      path: /fosys/food/**
+      serviceId: hm-food-service
+      stripPrefix: false
+    onboard-service:
+      path: /fosys/onboard/hotel/**
+      serviceId: hm-onboarding-service
+      stripPrefix: false
+
+# Ribbon timeouts (per-route via <route>.ribbon.* also supported)
+ribbon:
+  ConnectTimeout: 2000
+  ReadTimeout: 10000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: false
+
+# Hystrix wraps each route call to trip circuits on slow/failing upstreams
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        isolation:
+#          strategy: THREAD
+#          thread:
+#            timeoutInMilliseconds: 12000
+#      circuitBreaker:
+#        requestVolumeThreshold: 20
+#        sleepWindowInMilliseconds: 10000
+#        errorThresholdPercentage: 50
+#      metrics:
+#        rollingStats:
+#          timeInMilliseconds: 10000
+
+# Simple, centralized CORS (tighten for prod)
+# cors:
+#   allowedOrigins: "https://yourapp.com"
+#   allowedMethods: "GET,POST,PUT,DELETE,OPTIONS"
+#
+#springdoc:
+#  swagger-ui:
+#    urls:
+#      - name: auth-service
+#        url: /fosys/auth/v3/api-docs
+#      - name: food-service
+#        url: /hotel/food/v3/api-docs
